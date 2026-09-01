@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="108" fill="#ff8a00"/>
+  <rect x="82" y="82" width="348" height="348" rx="82" fill="#111113"/>
+  <text x="256" y="270" text-anchor="middle" font-family="Arial,sans-serif" font-size="150" font-weight="900" fill="#fff">ET</text>
+  <text x="256" y="350" text-anchor="middle" font-family="Arial,sans-serif" font-size="44" font-weight="800" fill="#ff8a00">RECALL</text>
+</svg>
