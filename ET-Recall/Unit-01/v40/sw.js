@@ -1,0 +1,4 @@
+const CACHE='et-unit-01-v40-original-inline';const CORE=['/','/manifest.webmanifest?v=40','/icon.svg?v=40','/enhance.js?v=40'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE).catch(()=>{})).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;if(e.request.mode==='navigate'){e.respondWith(fetch(e.request).then(r=>{let c=r.clone();caches.open(CACHE).then(x=>x.put('/',c));return r}).catch(()=>caches.match('/')));return}e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(n=>{if(new URL(e.request.url).origin===location.origin){let c=n.clone();caches.open(CACHE).then(x=>x.put(e.request,c))}return n})))});
