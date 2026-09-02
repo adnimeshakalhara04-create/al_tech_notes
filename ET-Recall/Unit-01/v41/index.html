@@ -1,0 +1,16 @@
+<!doctype html><html lang="si"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080808"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ET Unit 01"><link rel="manifest" href="/manifest.webmanifest?v=41"><link rel="icon" href="/icon.svg?v=41" type="image/svg+xml"><title>ET Unit 01</title><style>html,body{margin:0;background:#080808;color:#fff;font-family:system-ui,sans-serif}.boot{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}.boot b{font-size:22px}.boot small{color:#aaa}</style></head><body><div class="boot"><div><b>ET Unit 01</b><br><small>Loading 300 questions + clear lesson images…</small></div></div><script>
+(async()=>{try{
+ const r=await fetch('https://et-recall-unit-01-52u50hlwm-nimesha.vercel.app/?base=v37',{cache:'no-store'});if(!r.ok)throw Error(r.status);let h=await r.text();
+ h=h.replace('data-build="v37-drive-images-300-final"','data-build="v41-clear-single-images"');
+ h=h.replaceAll('ET Recall • Unit 01','ET Unit 01');
+ h=h.replaceAll('content="ET Recall"','content="ET Unit 01"');
+ const oldStyle="function style(c){let i=Number(c.imageIndex)||0,x=i%5,y=Math.floor(i/5);return`background-image:url('${c.image}');background-size:500% 600%;background-position:${x*25}% ${y*20}%`}";
+ const newStyle="function style(c){let i=Number(c.imageIndex)||0,x=i%5,y=Math.floor(i/5);if(c.imageMode==='single'){let fb=c.imageFallback?`,url('${c.imageFallback}')`:'';let bs=c.imageFallback?'contain,500% 600%':'contain';let bp=c.imageFallback?`center,${x*25}% ${y*20}%`:'center';return`background-image:url('${c.image}')${fb};background-size:${bs};background-position:${bp};background-repeat:no-repeat;background-color:#fff`}return`background-image:url('${c.image}');background-size:500% 600%;background-position:${x*25}% ${y*20}%`}";
+ if(!h.includes(oldStyle))throw Error('style patch marker missing');h=h.replace(oldStyle,newStyle);
+ const mapTag='<script src="https://et-u1-image-map.vercel.app/image-map.js"></'+'script>';
+ const inject=mapTag+'<script src="/enhance.js?v=41"></'+'script>';
+ if(!h.includes(mapTag))throw Error('image-map marker missing');h=h.replace(mapTag,inject);
+ h=h.replace('</head>','<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ET Unit 01"><link rel="manifest" href="/manifest.webmanifest?v=41"><link rel="icon" href="/icon.svg?v=41" type="image/svg+xml"></head>');
+ document.open();document.write(h);document.close();
+}catch(e){console.error(e);document.body.innerHTML='<div class="boot"><div><b>ET Unit 01 load error</b><br><small>Reload කරන්න. Error: '+String(e.message||e)+'</small></div></div>'}})();
+</script></body></html>
