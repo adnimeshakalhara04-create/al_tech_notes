@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T18:04:24.007Z",
+  "updatedAt": "2026-09-08T18:23:48.129Z",
   "images": {
     "builtin-001": {
       "hidden": true
@@ -83,5 +83,6 @@
       "path": "ET-Recall/Unit-01/v44/live-images/builtin-014-1788890661054.webp",
       "uploadedAt": "2026-09-08T18:04:23.064Z"
     }
-  }
+  },
+  "inserts": {}
 }
