@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T18:30:21.204Z",
+  "updatedAt": "2026-09-08T18:30:38.203Z",
   "images": {
     "builtin-001": {
       "hidden": true
@@ -116,6 +116,14 @@
       "path": "ET-Recall/Unit-01/v44/live-images/insert-1788892042561-1788892043974.webp",
       "uploadedAt": "2026-09-08T18:27:27.129Z",
       "caption": "විදුලි සන්නයනය (Electrical Conduction)එක් ස්ථානයක සිට තවත් ස්ථානයකට"
+    },
+    "insert-1788892233505": {
+      "anchorId": "card-lesson-11-dpzv80",
+      "hidden": false,
+      "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/insert-1788892233505-1788892235228.webp",
+      "path": "ET-Recall/Unit-01/v44/live-images/insert-1788892233505-1788892235228.webp",
+      "uploadedAt": "2026-09-08T18:30:37.415Z",
+      "caption": "ට්‍රාන්සිස්ටරය (Transistor)ක්‍රි.ව. 1977 දී ඇමරිකානු ජාතික විලියම් ෂ"
     }
   }
 }
