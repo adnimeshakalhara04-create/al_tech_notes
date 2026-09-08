@@ -1,9 +1,15 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T17:43:41.664Z",
+  "updatedAt": "2026-09-08T17:46:31.843Z",
   "images": {
     "builtin-001": {
       "hidden": true
+    },
+    "builtin-002": {
+      "hidden": false,
+      "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/builtin-002-1788889586834.webp",
+      "path": "ET-Recall/Unit-01/v44/live-images/builtin-002-1788889586834.webp",
+      "uploadedAt": "2026-09-08T17:46:30.945Z"
     }
   }
 }
