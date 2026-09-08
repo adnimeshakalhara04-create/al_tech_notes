@@ -1,20 +1,29 @@
-# ET Recall • Unit 01
+# ET Unit 01
 
 Production: https://et-recall-unit-01.vercel.app
 
-This source snapshot restores the Unit 01 dataset to **Q001–Q300** and adds lesson-image practice based on the images in the Google Drive `Unit 01` folder.
+Current production build: `v42-full-lesson-premium`
 
-## What changed
+## Current Unit 01 app
+- 300 recall questions (Q001–Q300).
+- Practice, All Questions and Memory tabs.
+- Image Practice with clear single-image Drive mapping and atlas fallback.
+- Fourth tab: `📖 සම්පූර්ණ පාඩම`.
+- Complete Unit 01 lesson in the original section order from 1.1 through 1.5.
+- Source wording, sequence, bullet lists and lesson tables preserved.
+- Relevant original Unit 01 Google Drive images placed beside matching lesson topics.
+- Premium spacious reading layout with wider content shell, larger spacing, responsive tables, image galleries and mobile-friendly scrollable navigation.
+- ET Unit 01 PWA name/icon, install support and Full Screen preserved.
 
-- Fixed the broken Q258 JavaScript string that caused Q256–Q271 to fail to load (284/300 bug).
-- Added integrity checking for 300 unique question IDs.
-- Added Drive-image mappings to relevant Unit 01 questions.
-- Replaced Q291–Q300 with 10 image-based revision questions grounded in the Unit 01 lesson images.
-- Added `Image Questions` practice mode.
-- Added image display to the question list, memory-answer list, and practice modal.
+## Source snapshot
+The production lesson UI and content for this build are stored under `ET-Recall/Unit-01/v42/`.
 
-## Runtime data
+Key files:
+- `v42/index.html`
+- `v42/lesson.js`
+- `v42/enhance.js`
+- `v42/manifest.webmanifest`
+- `v42/sw.js`
 
-The compact production shell loads the existing Q001–Q239 and Q272–Q300 data services, the corrected Q240–Q271 service, and the Drive-image atlas/image mapping services hosted on Vercel.
-
-Build marker: `v37-drive-images-300-final`
+## Lesson source
+The complete lesson content is grounded in the connected Google Drive Unit 01 lesson document and the Unit 01 lesson-image folders. Image order/mapping follows the Unit 01 app mapping rather than arbitrary placement.
