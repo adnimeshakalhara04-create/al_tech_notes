@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T18:25:25.958Z",
+  "updatedAt": "2026-09-08T18:25:44.271Z",
   "images": {
     "builtin-001": {
       "hidden": true
@@ -85,14 +85,6 @@
     }
   },
   "inserts": {
-    "insert-1788891865575": {
-      "anchorId": "card-lesson-11-d3vb46",
-      "hidden": false,
-      "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/insert-1788891865575-1788891868165.webp",
-      "path": "ET-Recall/Unit-01/v44/live-images/insert-1788891865575-1788891868165.webp",
-      "uploadedAt": "2026-09-08T18:24:30.281Z",
-      "caption": "විදුලි සන්නයනය (Electrical Conduction)"
-    },
     "insert-1788891912868": {
       "anchorId": "card-lesson-11-d3vb46",
       "hidden": false,
