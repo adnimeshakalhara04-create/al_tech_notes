@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T18:26:52.698Z",
+  "updatedAt": "2026-09-08T18:27:28.333Z",
   "images": {
     "builtin-001": {
       "hidden": true
@@ -100,6 +100,14 @@
       "path": "ET-Recall/Unit-01/v44/live-images/insert-1788892005441-1788892008088.webp",
       "uploadedAt": "2026-09-08T18:26:51.494Z",
       "caption": "විදුලි සන්නයනය (Electrical Conduction)"
+    },
+    "insert-1788892042561": {
+      "anchorId": "card-lesson-11-d3vb46",
+      "hidden": false,
+      "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/insert-1788892042561-1788892043974.webp",
+      "path": "ET-Recall/Unit-01/v44/live-images/insert-1788892042561-1788892043974.webp",
+      "uploadedAt": "2026-09-08T18:27:27.129Z",
+      "caption": "විදුලි සන්නයනය (Electrical Conduction)එක් ස්ථානයක සිට තවත් ස්ථානයකට"
     }
   }
 }
