@@ -1,6 +1,9 @@
 (()=>{
   const qs=(s,r=document)=>r.querySelector(s);
   const qsa=(s,r=document)=>[...r.querySelectorAll(s)];
+  const CFG_KEY='etu1-admin-config-v1';
+  const DB_NAME='etu1-admin-media-v1';
+  const STORE='media';
   let installed=false;
 
   function addStyles(){
@@ -20,11 +23,37 @@
       .etu1-admin-image-wrap{position:relative!important}
       .etu1-admin-edit-image{position:absolute;right:10px;top:10px;z-index:8;border:1px solid #ffaf4e;background:#ff8a00;color:#111;border-radius:999px;min-height:36px;padding:0 11px;font-size:11px;font-weight:950;box-shadow:0 8px 24px #0008}
       .etu1-admin-edit-image:active{transform:scale(.98)}
+      .etu1-admin-add-slot{display:flex;justify-content:flex-start;align-items:center;gap:8px;margin:7px 0 16px;min-height:34px}
+      .etu1-admin-add-slot.in-li{margin:8px 0 4px}
+      .etu1-admin-add-image{border:1px dashed #765026;background:#1c140d;color:#ffc27a;border-radius:999px;min-height:34px;padding:0 12px;font-size:11px;font-weight:900;box-shadow:none}
+      .etu1-admin-add-image:hover,.etu1-admin-add-image:focus{background:#2a1b0d;border-style:solid;color:#ffd6a4}
+      .etu1-admin-add-hint{color:#777;font-size:10px;line-height:1.3}
+      .etu1-admin-saving{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:10020;background:#111;color:#fff;border:1px solid #6a4219;border-radius:999px;padding:10px 15px;font-size:12px;font-weight:900;box-shadow:0 12px 40px #000b}
       .etu1-admin-highlight{outline:3px solid #ff8a00!important;outline-offset:4px;animation:etu1Flash 1.2s ease 2}
       @keyframes etu1Flash{0%,100%{box-shadow:0 0 0 0 #ff8a0000}50%{box-shadow:0 0 0 12px #ff8a0030}}
-      @media(max-width:720px){.etu1-admin-full-head{padding:14px;display:block}.etu1-admin-full-chip{display:inline-block;margin-top:10px}.etu1-admin-full-jumps{margin-left:-4px;margin-right:-4px}.etu1-admin-edit-image{right:7px;top:7px;min-height:34px;padding:0 9px}.etu1-admin-live-lesson{padding-bottom:24px}}
+      @media(max-width:720px){.etu1-admin-full-head{padding:14px;display:block}.etu1-admin-full-chip{display:inline-block;margin-top:10px}.etu1-admin-full-jumps{margin-left:-4px;margin-right:-4px}.etu1-admin-edit-image{right:7px;top:7px;min-height:34px;padding:0 9px}.etu1-admin-live-lesson{padding-bottom:24px}.etu1-admin-add-slot{margin:6px 0 13px}.etu1-admin-add-hint{display:none}.etu1-admin-add-image{min-height:32px;padding:0 10px}}
     `;
     document.head.appendChild(s);
+  }
+
+  function short(t,n=72){return String(t||'').replace(/\s+/g,' ').trim().slice(0,n)}
+  function uid(){return `img-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`}
+  function loadCfg(){try{return {version:1,overrides:{},inserts:[],...JSON.parse(localStorage.getItem(CFG_KEY)||'{}')}}catch{return {version:1,overrides:{},inserts:[]}}}
+  function saveCfg(cfg){localStorage.setItem(CFG_KEY,JSON.stringify(cfg))}
+  function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE)};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+  async function dbPut(k,v){const db=await openDB();return new Promise((res,rej)=>{const t=db.transaction(STORE,'readwrite');t.objectStore(STORE).put(v,k);t.oncomplete=()=>res();t.onerror=()=>rej(t.error)})}
+  async function optimizeImage(file){try{const bmp=await createImageBitmap(file);const max=1800,scale=Math.min(1,max/Math.max(bmp.width,bmp.height));const c=document.createElement('canvas');c.width=Math.max(1,Math.round(bmp.width*scale));c.height=Math.max(1,Math.round(bmp.height*scale));c.getContext('2d',{alpha:false}).drawImage(bmp,0,0,c.width,c.height);bmp.close?.();return await new Promise(res=>c.toBlob(b=>res(b||file),'image/webp',.9))}catch{return file}}
+  function pickFile(){return new Promise(res=>{const i=document.createElement('input');i.type='file';i.accept='image/*';i.style.display='none';document.body.appendChild(i);i.onchange=()=>{const f=i.files?.[0]||null;i.remove();res(f)};i.oncancel=()=>{i.remove();res(null)};i.click()})}
+  function toast(text){const old=qs('.etu1-admin-saving');old?.remove();const t=document.createElement('div');t.className='etu1-admin-saving';t.textContent=text;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+
+  function ensureSourceAnchors(source){
+    qsa('.lesson-section',source).forEach(sec=>{
+      let n=0;
+      qsa(':scope > h2,:scope > h3,:scope > h4,:scope > p,:scope > ul > li,:scope > ol > li,:scope > .definition,:scope > .example-box',sec).forEach(el=>{
+        if(!el.dataset.adminAnchor) el.dataset.adminAnchor=`${sec.id||'section'}-a-${String(++n).padStart(2,'0')}`;
+        else n++;
+      });
+    });
   }
 
   function stripDuplicateIds(root){
@@ -62,6 +91,47 @@
     });
   }
 
+  async function addImageAt(anchorId,context){
+    if(!anchorId){alert('මෙම තැනට stable lesson anchor එකක් හමු වුණේ නැහැ. Reload කරලා නැවත try කරන්න.');return}
+    const file=await pickFile();
+    if(!file) return;
+    toast('⏳ Image එක සකස් කරනවා…');
+    const blob=await optimizeImage(file);
+    const defaultCaption=short(context,60)||'Unit 01 පාඩම් රූපය';
+    const caption=prompt('Image caption එක (අවශ්‍ය නම් වෙනස් කරන්න):',defaultCaption);
+    const id=uid();
+    await dbPut(`insert:${id}`,blob);
+    const cfg=loadCfg();
+    if(!Array.isArray(cfg.inserts)) cfg.inserts=[];
+    cfg.inserts.push({id,anchorId,position:'after',caption:caption===null?defaultCaption:(caption.trim()||defaultCaption)});
+    saveCfg(cfg);
+    toast('✅ Image එක මේ තැනට add කළා');
+    const reload=qs('#etu1Reload');
+    if(reload) reload.click();
+    setTimeout(()=>renderFullLesson(id),180);
+  }
+
+  function decorateAddPoints(copy){
+    const targets=qsa('[data-admin-anchor]',copy);
+    targets.forEach(el=>{
+      if(el.closest('.etu1-custom-figure,.lesson-figure,.lesson-feature,.turn-card')) return;
+      const anchorId=el.dataset.adminAnchor;
+      if(!anchorId) return;
+      const slot=document.createElement(el.tagName==='LI'?'span':'div');
+      slot.className='etu1-admin-add-slot'+(el.tagName==='LI'?' in-li':'');
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='etu1-admin-add-image';
+      b.textContent='➕ Image මෙතැන දාන්න';
+      const hint=document.createElement('span');
+      hint.className='etu1-admin-add-hint';
+      hint.textContent='මෙම විස්තරයට පස්සේ image එකක් insert කරන්න';
+      b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();addImageAt(anchorId,el.textContent)});
+      slot.append(b,hint);
+      if(el.tagName==='LI') el.appendChild(slot); else el.insertAdjacentElement('afterend',slot);
+    });
+  }
+
   function makeJumps(copy,wrap){
     const sections=qsa('.lesson-section',copy);
     if(!sections.length) return;
@@ -80,7 +150,7 @@
     wrap.insertBefore(nav,copy);
   }
 
-  function renderFullLesson(){
+  function renderFullLesson(highlightInsertId){
     const body=qs('#etu1AdminBody');
     const source=qs('#lesson');
     if(!body) return;
@@ -89,10 +159,11 @@
       return;
     }
 
+    ensureSourceAnchors(source);
     body.innerHTML='';
     const head=document.createElement('div');
     head.className='etu1-admin-full-head';
-    head.innerHTML='<div><h3>📖 සම්පූර්ණ පාඩම — Live Admin View</h3><p>App එකේ “සම්පූර්ණ පාඩම” tab එකේ තියෙන 1.1 → 1.5 content එකම මෙතැන පේනවා. Image එකක් edit කරන්න ඒ image එක උඩ තියෙන Edit button එක ගහන්න.</p></div><span class="etu1-admin-full-chip">1.1 → 1.5 • LIVE</span>';
+    head.innerHTML='<div><h3>📖 සම්පූර්ණ පාඩම — Live Admin View</h3><p>1.1 → 1.5 සම්පූර්ණ content එක මෙතැනම පේනවා. Image තියෙන තැන Edit කරන්නත්, image නැති විස්තර/point එකකට <b>➕ Image මෙතැන දාන්න</b> button එකෙන් අලුත් image එකක් insert කරන්නත් පුළුවන්.</p></div><span class="etu1-admin-full-chip">1.1 → 1.5 • INLINE IMAGE ADMIN</span>';
     body.appendChild(head);
 
     const wrap=document.createElement('div');
@@ -104,9 +175,17 @@
     copy.innerHTML=(sourceShell||source).outerHTML;
     stripDuplicateIds(copy);
     decorateImages(copy);
+    decorateAddPoints(copy);
     wrap.appendChild(copy);
     body.appendChild(wrap);
     makeJumps(copy,wrap);
+
+    if(highlightInsertId){
+      setTimeout(()=>{
+        const added=qs(`[data-admin-insert="${CSS.escape(highlightInsertId)}"]`,copy);
+        if(added){added.scrollIntoView({behavior:'smooth',block:'center'});added.classList.add('etu1-admin-highlight');setTimeout(()=>added.classList.remove('etu1-admin-highlight'),2600)}
+      },80);
+    }
   }
 
   function activateFullTab(btn,panel){
@@ -132,11 +211,10 @@
       tabs.insertBefore(btn,tabs.firstChild);
     }
     btn.addEventListener('click',e=>{e.preventDefault();activateFullTab(btn,panel)});
-
     fab.addEventListener('click',()=>setTimeout(()=>activateFullTab(btn,panel),20));
 
     const observer=new MutationObserver(()=>{
-      if(panel.classList.contains('on')&&btn.classList.contains('on')) setTimeout(renderFullLesson,0);
+      if(panel.classList.contains('on')&&btn.classList.contains('on')) setTimeout(()=>renderFullLesson(),0);
     });
     observer.observe(panel,{attributes:true,attributeFilter:['class']});
   }
