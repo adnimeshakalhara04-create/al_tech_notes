@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-08T17:58:12.948Z",
+  "updatedAt": "2026-09-08T17:58:34.850Z",
   "images": {
     "builtin-001": {
       "hidden": true
@@ -46,6 +46,12 @@
       "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/builtin-008-1788890289510.webp",
       "path": "ET-Recall/Unit-01/v44/live-images/builtin-008-1788890289510.webp",
       "uploadedAt": "2026-09-08T17:58:12.187Z"
+    },
+    "builtin-009": {
+      "hidden": false,
+      "url": "https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/main/ET-Recall/Unit-01/v44/live-images/builtin-009-1788890310050.webp",
+      "path": "ET-Recall/Unit-01/v44/live-images/builtin-009-1788890310050.webp",
+      "uploadedAt": "2026-09-08T17:58:33.975Z"
     }
   }
 }
