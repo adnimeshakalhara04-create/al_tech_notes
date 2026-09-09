@@ -1,0 +1,9 @@
+{
+  "unit": "06",
+  "format": "svg",
+  "style": {"background":"#FFFFFF","line":"#0B1F3A","highlight":"#F97316","detail":"medium","visible_text_inside_svg":false},
+  "policy": "Semantic topic mapping only. Captions and labels must come from the canonical Unit 06 lesson text in the app; no unsupported lesson text is embedded in these SVGs.",
+  "assets": [
+    {"topic":"engine-head","file":"01_engine_head.svg"},{"topic":"engine-block","file":"02_engine_block.svg"},{"topic":"oil-sump","file":"03_oil_sump.svg"},{"topic":"piston","file":"04_piston.svg"},{"topic":"piston-rod","file":"05_piston_rod.svg"},{"topic":"crankshaft","file":"06_crankshaft.svg"},{"topic":"inlet-valve","file":"07_inlet_valve.svg"},{"topic":"exhaust-valve","file":"08_exhaust_valve.svg"},{"topic":"four-stroke-cycle","file":"09_four_stroke_cycle.svg"},{"topic":"two-stroke-cycle","file":"10_two_stroke_cycle.svg"},{"topic":"fuel-system","file":"11_fuel_system.svg"},{"topic":"carburetor","file":"12_carburetor.svg"},{"topic":"fuel-injector","file":"13_fuel_injector.svg"},{"topic":"ignition-coil","file":"14_ignition_coil.svg"},{"topic":"spark-plug","file":"15_spark_plug.svg"},{"topic":"lubrication-system","file":"16_lubrication_system.svg"},{"topic":"oil-pump","file":"17_oil_pump.svg"},{"topic":"oil-filter","file":"18_oil_filter.svg"},{"topic":"brake-system","file":"19_brake_system.svg"},{"topic":"radiator-cooling-system","file":"20_radiator_cooling_system.svg"},{"topic":"water-pump","file":"21_water_pump.svg"},{"topic":"battery","file":"22_battery.svg"},{"topic":"alternator","file":"23_alternator.svg"},{"topic":"starter-motor","file":"24_starter_motor.svg"},{"topic":"clutch","file":"25_clutch.svg"},{"topic":"gearbox","file":"26_gearbox.svg"},{"topic":"differential","file":"27_differential.svg"},{"topic":"tyre-construction","file":"28_tyre_construction.svg"}
+  ]
+}
