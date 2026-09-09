@@ -1,0 +1,11 @@
+{
+  "name": "et-recall-unit-06-svg-overlay",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
