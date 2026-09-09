@@ -33,17 +33,20 @@
     "tyre-construction": "28_tyre_construction.svg"
   });
 
-  // Exact/strong aliases only. Existing real card.image always has priority.
+  // Strong aliases only. Existing real card.image always has priority.
+  // Canonical Sinhala wording used by the Unit 06 note is intentionally included.
   const ALIASES = Object.freeze([
     ["radiator cooling system", "radiator-cooling-system"],
     ["radiator and cooling system", "radiator-cooling-system"],
     ["සිසිලන පද්ධතිය", "radiator-cooling-system"],
+    ["සීතල කිරීමේ පද්ධතිය", "radiator-cooling-system"],
     ["රේඩියේටරය", "radiator-cooling-system"],
 
     ["four stroke cycle", "four-stroke-cycle"],
     ["four stroke", "four-stroke-cycle"],
     ["4 stroke", "four-stroke-cycle"],
     ["සිව් පහර", "four-stroke-cycle"],
+    ["සිව්පහර", "four-stroke-cycle"],
     ["හතර පහර", "four-stroke-cycle"],
 
     ["two stroke cycle", "two-stroke-cycle"],
@@ -61,14 +64,19 @@
     ["cylinder block", "engine-block"],
     ["එන්ජින් බ්ලොක්", "engine-block"],
     ["සිලින්ඩර බ්ලොක්", "engine-block"],
+    ["එන්ජින් බඳ", "engine-block"],
+    ["එන්ජින් බොඩිය", "engine-block"],
 
     ["oil sump", "oil-sump"],
     ["ඔයිල් සම්ප්", "oil-sump"],
+    ["තෙල් දෙන", "oil-sump"],
 
     ["connecting rod", "piston-rod"],
     ["piston rod", "piston-rod"],
     ["කනෙක්ටින් රොඩ්", "piston-rod"],
     ["සම්බන්ධක දණ්ඩ", "piston-rod"],
+    ["සබැඳුම් දණ්ඩ", "piston-rod"],
+    ["පිස්ටන් අත", "piston-rod"],
 
     ["piston", "piston"],
     ["පිස්ටනය", "piston"],
@@ -78,15 +86,20 @@
     ["crankshaft", "crankshaft"],
     ["ක්‍රෑන්ක් ෂාෆ්ට්", "crankshaft"],
     ["ක්‍රෑන්ක්ශාෆ්ට්", "crankshaft"],
+    ["දඟර කඳ", "crankshaft"],
 
     ["inlet valve", "inlet-valve"],
     ["intake valve", "inlet-valve"],
     ["ඉන්ලට් වෑල්ව්", "inlet-valve"],
     ["ආදාන කපාට", "inlet-valve"],
+    ["චූෂණ වෑල්ව", "inlet-valve"],
+    ["චූෂණ වෑල්ව්", "inlet-valve"],
 
     ["exhaust valve", "exhaust-valve"],
     ["එක්සෝස්ට් වෑල්ව්", "exhaust-valve"],
     ["පිටාර කපාට", "exhaust-valve"],
+    ["පිටාර වෑල්ව", "exhaust-valve"],
+    ["පිටාර වෑල්ව්", "exhaust-valve"],
 
     ["fuel system", "fuel-system"],
     ["ඉන්ධන පද්ධතිය", "fuel-system"],
@@ -119,6 +132,7 @@
 
     ["brake system", "brake-system"],
     ["තිරිංග පද්ධතිය", "brake-system"],
+    ["රෝධන පද්ධතිය", "brake-system"],
 
     ["water pump", "water-pump"],
     ["ජල පොම්පය", "water-pump"],
@@ -145,10 +159,12 @@
 
     ["tyre construction", "tyre-construction"],
     ["tire construction", "tyre-construction"],
-    ["tyre", "tyre-construction"],
-    ["tire", "tyre-construction"],
     ["ටයර් නිර්මාණය", "tyre-construction"],
     ["ටයරය", "tyre-construction"]
+  ]);
+
+  const DENY = Object.freeze([
+    "සංසන්දනය", "වෙනස", "සමාලෝචනය", "සාරාංශ", "review", "compare", "comparison"
   ]);
 
   function normalise(value) {
@@ -161,15 +177,35 @@
       .replace(/\s+/g, " ");
   }
 
-  function key(value) {
+  const NORMAL_ALIASES = ALIASES.map(([alias, mapped]) => [normalise(alias), mapped]);
+
+  function matches(value) {
     const text = normalise(value);
-    if (!text) return null;
+    if (!text) return [];
+    const direct = text.replace(/ /g, "-");
+    if (MAP[direct]) return [direct];
+    const found = new Set();
+    for (const [alias, mapped] of NORMAL_ALIASES) {
+      if (text === alias || text.includes(alias)) found.add(mapped);
+    }
+    return [...found];
+  }
+
+  function strictKey(value, exactOnly = false) {
+    const text = normalise(value);
+    if (!text || DENY.some(term => text.includes(normalise(term)))) return null;
     const direct = text.replace(/ /g, "-");
     if (MAP[direct]) return direct;
-    for (const [alias, mapped] of ALIASES) {
-      if (text.includes(normalise(alias))) return mapped;
+
+    const found = new Set();
+    for (const [alias, mapped] of NORMAL_ALIASES) {
+      if (exactOnly ? text === alias : (text === alias || text.includes(alias))) found.add(mapped);
     }
-    return null;
+    return found.size === 1 ? [...found][0] : null;
+  }
+
+  function key(value) {
+    return strictKey(value, false);
   }
 
   function resolve(value) {
@@ -180,31 +216,36 @@
   function imageFor(card) {
     if (!card) return "";
     if (card.image) return card.image;
-    const searchable = [
-      card.topic,
-      card.q,
-      card.question,
-      card.title,
-      card.a,
-      card.answer,
-      card.memory
-    ].filter(Boolean).join(" ");
-    return resolve(searchable);
+    if (String(card.source || "").trim() !== "Approved Note") return "";
+
+    // Topic is safest. If a topic exists, require an exact semantic alias so a broad
+    // topic such as "පහර" does not incorrectly inherit a piston/valve SVG.
+    if (card.topic) {
+      const topicKey = strictKey(card.topic, true);
+      return topicKey ? BASE + MAP[topicKey] : "";
+    }
+
+    // Only fall back to the question/title. Never inspect answer/memory text: answers
+    // often mention several engine parts and caused unrelated diagrams to be attached.
+    const questionText = [card.q, card.question, card.title].filter(Boolean).join(" ");
+    const qKey = strictKey(questionText, false);
+    return qKey ? BASE + MAP[qKey] : "";
   }
 
   function applyToCards(cards) {
-    if (!Array.isArray(cards)) return { scanned: 0, added: 0 };
-    let added = 0;
+    if (!Array.isArray(cards)) return { scanned: 0, eligible: 0, added: 0 };
+    let eligible = 0, added = 0;
     for (const card of cards) {
-      if (!card || card.image) continue;
+      if (!card || card.image || String(card.source || "").trim() !== "Approved Note") continue;
+      eligible += 1;
       const src = imageFor(card);
       if (!src) continue;
       card.image = src;
-      card.imageAlt = card.imageAlt || card.topic || "Unit 06 visual";
+      card.imageAlt = card.imageAlt || card.topic || card.question || "Unit 06 visual";
       card.svgFallback = true;
       added += 1;
     }
-    return { scanned: cards.length, added };
+    return { scanned: cards.length, eligible, added };
   }
 
   const API = Object.freeze({
@@ -212,6 +253,7 @@
     map: MAP,
     aliases: ALIASES.slice(),
     normalise,
+    matches,
     key,
     resolve,
     imageFor,
@@ -220,8 +262,6 @@
 
   window.ET_UNIT06_SVG = API;
 
-  // questions.js loads immediately before this file. Support the current Unit 06
-  // global name and the legacy ET6 name. Existing real images are never replaced.
   const cards = Array.isArray(window.ET_U6_QUESTIONS)
     ? window.ET_U6_QUESTIONS
     : (Array.isArray(window.ET6) ? window.ET6 : null);
