@@ -157,7 +157,6 @@
       .trim()
       .toLowerCase()
       .replace(/[_/\\-]+/g, " ")
-      // Keep Unicode letters/numbers (including Sinhala); strip punctuation only.
       .replace(/[^\p{L}\p{M}\p{N} ]+/gu, " ")
       .replace(/\s+/g, " ");
   }
@@ -165,10 +164,8 @@
   function key(value) {
     const text = normalise(value);
     if (!text) return null;
-
     const direct = text.replace(/ /g, "-");
     if (MAP[direct]) return direct;
-
     for (const [alias, mapped] of ALIASES) {
       if (text.includes(normalise(alias))) return mapped;
     }
@@ -223,9 +220,15 @@
 
   window.ET_UNIT06_SVG = API;
 
-  // questions.js is loaded immediately before this file in the safe integration.
-  // Mutate only blank image fields; existing real images are never replaced.
-  if (Array.isArray(window.ET6)) {
-    window.ET6_SVG_RESULT = Object.freeze(applyToCards(window.ET6));
+  // questions.js loads immediately before this file. Support the current Unit 06
+  // global name and the legacy ET6 name. Existing real images are never replaced.
+  const cards = Array.isArray(window.ET_U6_QUESTIONS)
+    ? window.ET_U6_QUESTIONS
+    : (Array.isArray(window.ET6) ? window.ET6 : null);
+
+  if (cards) {
+    const result = Object.freeze(applyToCards(cards));
+    window.ET_U6_SVG_RESULT = result;
+    window.ET6_SVG_RESULT = result;
   }
 })();
