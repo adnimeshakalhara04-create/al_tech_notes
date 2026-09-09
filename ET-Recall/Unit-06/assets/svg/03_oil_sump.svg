@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Oil sump</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M230 235 H970 L900 590 Q880 650 820 650 H380 Q320 650 300 590 Z" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M340 330 H860 L810 540 H390 Z" fill="#F97316" stroke="#0B1F3A" stroke-width="5"/><circle cx="840" cy="605" r="18" fill="#F97316" stroke="#0B1F3A"/><line x1="225" y1="210" x2="975" y2="210" stroke="#0B1F3A" stroke-width="6"/>
+</g>
+</svg>
