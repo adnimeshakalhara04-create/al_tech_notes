@@ -16,6 +16,12 @@ const SVG_FILES = [
   '25_clutch.svg','26_gearbox.svg','27_differential.svg','28_tyre_construction.svg'
 ];
 
+const OVERLAY_PATHS = new Set([
+  '/assets/unit06-svg.js',
+  '/assets/unit06-svg-map.json',
+  ...SVG_FILES.map(file => `/assets/svg/${file}`)
+]);
+
 const TEXT_EXT = new Set(['.html','.js','.css','.json','.webmanifest','.svg','.txt','.xml']);
 const seen = new Set();
 const queue = [
@@ -51,7 +57,7 @@ function discover(text) {
 }
 
 async function fetchBytes(url, required = false) {
-  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-SafeOverlay/1.0' } });
+  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-SafeOverlay/1.1' } });
   if (!res.ok) {
     if (required) throw new Error(`Required fetch failed ${res.status}: ${url}`);
     console.warn(`skip ${res.status} ${url}`);
@@ -72,7 +78,11 @@ async function mirrorProduction() {
     if (seen.has(rel)) continue;
     seen.add(rel);
 
-    const bytes = await fetchBytes(SOURCE + rel, rel === '/' || rel === '/app.js' || rel === '/data/questions.js');
+    // The overlay is installed from GitHub later. Do not try to read it from the old production deployment.
+    if (OVERLAY_PATHS.has(rel)) continue;
+
+    const required = rel === '/' || rel === '/app.js' || rel === '/data/config.js' || rel === '/data/questions.js';
+    const bytes = await fetchBytes(SOURCE + rel, required);
     if (!bytes) continue;
 
     let out = bytes;
@@ -119,8 +129,20 @@ async function verifyOutput() {
 
   const q = await fs.readFile(path.join(STATIC, 'data', 'questions.js'), 'utf8');
   const cfg = await fs.readFile(path.join(STATIC, 'data', 'config.js'), 'utf8');
-  if (!q.includes('window.ET6')) throw new Error('ET6 dataset marker missing');
-  if (!cfg.includes('473')) console.warn('warning: expected 473 marker not found in config.js');
+
+  // Verify the real production dataset without depending on its JavaScript variable name.
+  if (q.length < 100000) throw new Error(`questions.js looks incomplete (${q.length} chars)`);
+  if (!q.includes('6.1') || !q.includes('6.2') || !q.includes('6.3')) {
+    throw new Error('questions.js missing expected Unit 06 section markers');
+  }
+  if (!/count\s*:\s*473\b/.test(cfg) && !/"count"\s*:\s*473\b/.test(cfg)) {
+    throw new Error('config.js does not confirm the 473-question production dataset');
+  }
+
+  const resolver = await fs.readFile(path.join(STATIC, 'assets', 'unit06-svg.js'), 'utf8');
+  if (!resolver.includes('ET_UNIT06_SVG') || !resolver.includes('applyToCards')) {
+    throw new Error('SVG resolver integrity check failed');
+  }
 
   for (const file of SVG_FILES) {
     const s = await fs.readFile(path.join(STATIC, 'assets', 'svg', file), 'utf8');
@@ -140,6 +162,7 @@ async function main() {
     unit: '06',
     mode: 'safe-svg-overlay',
     sourceOrigin: SOURCE,
+    questionCount: 473,
     svgAssets: SVG_FILES.length,
     resolver: '/assets/unit06-svg.js',
     generatedAt: new Date().toISOString()
