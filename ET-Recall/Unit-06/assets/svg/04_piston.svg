@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Piston</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="390" y="120" width="420" height="360" rx="30" fill="#E5E7EB" stroke="#0B1F3A"/><line x1="390" y1="190" x2="810" y2="190" stroke="#0B1F3A"/><line x1="390" y1="245" x2="810" y2="245" stroke="#0B1F3A"/><line x1="390" y1="300" x2="810" y2="300" stroke="#0B1F3A"/><circle cx="600" cy="400" r="58" fill="#FFFFFF" stroke="#0B1F3A"/><line x1="600" y1="480" x2="600" y2="680" stroke="#0B1F3A" stroke-width="18"/><circle cx="600" cy="650" r="65" fill="#F97316" stroke="#0B1F3A"/>
+</g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Connecting rod</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<circle cx="600" cy="175" r="95" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="600" cy="175" r="42" fill="#FFFFFF" stroke="#0B1F3A"/><polygon points="555,250 645,250 690,590 510,590" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="600" cy="620" r="125" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="600" cy="620" r="60" fill="#FFFFFF" stroke="#0B1F3A"/><line x1="575" y1="300" x2="540" y2="550" stroke="#0B1F3A" stroke-width="5"/><line x1="625" y1="300" x2="660" y2="550" stroke="#0B1F3A" stroke-width="5"/>
+</g>
+</svg>
