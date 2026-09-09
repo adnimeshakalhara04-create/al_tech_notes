@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Engine head</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="180" y="180" width="840" height="330" rx="45" fill="none" stroke="#0B1F3A"/><rect x="250" y="250" width="700" height="110" rx="30" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="390" cy="305" r="38" fill="#F97316" stroke="#0B1F3A"/><circle cx="810" cy="305" r="38" fill="#F97316" stroke="#0B1F3A"/><line x1="390" y1="343" x2="390" y2="480" stroke="#0B1F3A"/><line x1="810" y1="343" x2="810" y2="480" stroke="#0B1F3A"/><ellipse cx="600" cy="455" rx="160" ry="60" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="600" cy="455" r="24" fill="#F97316" stroke="#0B1F3A"/><line x1="250" y1="535" x2="950" y2="535" stroke="#0B1F3A" stroke-width="6"/>
+</g>
+</svg>
