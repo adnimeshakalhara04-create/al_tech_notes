@@ -57,7 +57,7 @@ function discover(text) {
 }
 
 async function fetchBytes(url, required = false) {
-  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-SafeOverlay/1.1' } });
+  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-SafeOverlay/1.2' } });
   if (!res.ok) {
     if (required) throw new Error(`Required fetch failed ${res.status}: ${url}`);
     console.warn(`skip ${res.status} ${url}`);
@@ -77,8 +77,6 @@ async function mirrorProduction() {
     const rel = queue.shift();
     if (seen.has(rel)) continue;
     seen.add(rel);
-
-    // The overlay is installed from GitHub later. Do not try to read it from the old production deployment.
     if (OVERLAY_PATHS.has(rel)) continue;
 
     const required = rel === '/' || rel === '/app.js' || rel === '/data/config.js' || rel === '/data/questions.js';
@@ -120,29 +118,17 @@ async function verifyOutput() {
   const index = await fs.readFile(path.join(STATIC, 'index.html'), 'utf8');
   if (!index.includes('/data/questions.js')) throw new Error('questions.js missing from output');
   if (!index.includes('/assets/unit06-svg.js')) throw new Error('SVG resolver script missing from output');
-  if (index.indexOf('/assets/unit06-svg.js') < index.indexOf('/data/questions.js')) {
-    throw new Error('SVG resolver must load after questions.js');
-  }
-  if (index.indexOf('/assets/unit06-svg.js') > index.indexOf('/app.js')) {
-    throw new Error('SVG resolver must load before app.js');
-  }
+  if (index.indexOf('/assets/unit06-svg.js') < index.indexOf('/data/questions.js')) throw new Error('SVG resolver must load after questions.js');
+  if (index.indexOf('/assets/unit06-svg.js') > index.indexOf('/app.js')) throw new Error('SVG resolver must load before app.js');
 
   const q = await fs.readFile(path.join(STATIC, 'data', 'questions.js'), 'utf8');
   const cfg = await fs.readFile(path.join(STATIC, 'data', 'config.js'), 'utf8');
-
-  // Verify the real production dataset without depending on its JavaScript variable name.
   if (q.length < 100000) throw new Error(`questions.js looks incomplete (${q.length} chars)`);
-  if (!q.includes('6.1') || !q.includes('6.2') || !q.includes('6.3')) {
-    throw new Error('questions.js missing expected Unit 06 section markers');
-  }
-  if (!/count\s*:\s*473\b/.test(cfg) && !/"count"\s*:\s*473\b/.test(cfg)) {
-    throw new Error('config.js does not confirm the 473-question production dataset');
-  }
+  if (!q.includes('6.1') || !q.includes('6.2') || !q.includes('6.3')) throw new Error('questions.js missing expected Unit 06 section markers');
+  if (!/(?:expectedQuestionCount|count)\s*:\s*473\b/.test(cfg)) throw new Error('config.js does not confirm the 473-question production dataset');
 
   const resolver = await fs.readFile(path.join(STATIC, 'assets', 'unit06-svg.js'), 'utf8');
-  if (!resolver.includes('ET_UNIT06_SVG') || !resolver.includes('applyToCards')) {
-    throw new Error('SVG resolver integrity check failed');
-  }
+  if (!resolver.includes('ET_UNIT06_SVG') || !resolver.includes('applyToCards')) throw new Error('SVG resolver integrity check failed');
 
   for (const file of SVG_FILES) {
     const s = await fs.readFile(path.join(STATIC, 'assets', 'svg', file), 'utf8');
@@ -156,22 +142,13 @@ async function main() {
   await mirrorProduction();
   await installSvgOverlay();
   await verifyOutput();
-
   await fs.writeFile(path.join(OUT, 'config.json'), JSON.stringify({ version: 3 }, null, 2));
   await fs.writeFile(path.join(STATIC, 'build-marker.json'), JSON.stringify({
-    unit: '06',
-    mode: 'safe-svg-overlay',
-    sourceOrigin: SOURCE,
-    questionCount: 473,
-    svgAssets: SVG_FILES.length,
-    resolver: '/assets/unit06-svg.js',
-    generatedAt: new Date().toISOString()
+    unit: '06', mode: 'safe-svg-overlay', sourceOrigin: SOURCE,
+    questionCount: 473, svgAssets: SVG_FILES.length,
+    resolver: '/assets/unit06-svg.js', generatedAt: new Date().toISOString()
   }, null, 2));
-
   console.log(`Unit 06 safe overlay READY: mirrored ${seen.size} production paths + ${SVG_FILES.length} SVG assets`);
 }
 
-main().catch(err => {
-  console.error(err.stack || err);
-  process.exit(1);
-});
+main().catch(err => { console.error(err.stack || err); process.exit(1); });
