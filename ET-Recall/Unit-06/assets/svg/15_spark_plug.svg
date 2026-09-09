@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Spark plug</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="475" y="110" width="250" height="140" rx="25" fill="#E5E7EB" stroke="#0B1F3A"/><line x1="600" y1="250" x2="600" y2="590" stroke="#0B1F3A" stroke-width="20"/><rect x="510" y="300" width="180" height="100" rx="10" fill="#FFFFFF" stroke="#0B1F3A"/><line x1="600" y1="590" x2="600" y2="660" stroke="#0B1F3A" stroke-width="12"/><line x1="600" y1="660" x2="670" y2="660" stroke="#0B1F3A" stroke-width="12"/><line x1="670" y1="660" x2="670" y2="615" stroke="#0B1F3A" stroke-width="12"/><path d="M610 620 Q640 580 670 620" fill="none" stroke="#F97316" stroke-width="7"/>
+</g>
+</svg>

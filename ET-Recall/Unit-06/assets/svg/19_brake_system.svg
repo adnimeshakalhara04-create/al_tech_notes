@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Brake system</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<circle cx="890" cy="430" r="170" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="890" cy="430" r="100" fill="#E5E7EB" stroke="#0B1F3A"/><rect x="760" y="250" width="260" height="70" rx="18" fill="#F97316" stroke="#0B1F3A"/><rect x="150" y="290" width="220" height="120" rx="24" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M370 350 H650 Q720 350 760 390" fill="none" stroke="#0B1F3A" stroke-width="14"/><rect x="490" y="470" width="170" height="90" rx="18" fill="#FFFFFF" stroke="#0B1F3A"/><line x1="260" y1="500" x2="490" y2="500" stroke="#F97316" stroke-width="8"/><polygon points="470.94744111674237,511.0 490,500 470.94744111674237,489.0" fill="#F97316" stroke="#F97316" stroke-width="3"/>
+</g>
+</svg>

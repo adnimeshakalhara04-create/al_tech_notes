@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Lubrication system</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M170 570 H1030" fill="none" stroke="#0B1F3A" stroke-width="12"/><rect x="170" y="520" width="260" height="110" rx="20" fill="#F97316" stroke="#0B1F3A"/><circle cx="520" cy="520" r="70" fill="#E5E7EB" stroke="#0B1F3A"/><rect x="650" y="200" width="320" height="260" rx="30" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M430 560 H520 M590 520 H650 V330 M650 330 H970" fill="none" stroke="#0B1F3A" stroke-width="14"/><line x1="455" y1="560" x2="500" y2="560" stroke="#F97316" stroke-width="8"/><polygon points="480.94744111674237,571.0 500,560 480.94744111674237,549.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="600" y1="520" x2="640" y2="450" stroke="#F97316" stroke-width="8"/><polygon points="640.0979582260485,471.9997819122361 640,450 620.9966090993105,461.08472526838574" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="720" y1="330" x2="930" y2="330" stroke="#F97316" stroke-width="8"/><polygon points="910.9474411167423,341.0 930,330 910.9474411167423,319.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><path d="M970 390 V560 H430" fill="none" stroke="#F97316" stroke-width="8"/>
+</g>
+</svg>

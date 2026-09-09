@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Oil filter</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="380" y="120" width="440" height="560" rx="55" fill="#E5E7EB" stroke="#0B1F3A"/><ellipse cx="600" cy="150" rx="220" ry="55" fill="#FFFFFF" stroke="#0B1F3A"/><ellipse cx="600" cy="650" rx="220" ry="55" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="600" cy="400" r="95" fill="#FFFFFF" stroke="#0B1F3A"/><path d="M470 210 V580 M520 210 V580 M680 210 V580 M730 210 V580" fill="none" stroke="#0B1F3A" stroke-width="5"/><line x1="600" y1="700" x2="600" y2="560" stroke="#F97316" stroke-width="8"/><polygon points="611.0,579.0525588832577 600,560 589.0,579.0525588832577" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="600" y1="270" x2="600" y2="110" stroke="#F97316" stroke-width="8"/><polygon points="611.0,129.05255888325766 600,110 589.0,129.05255888325766" fill="#F97316" stroke="#F97316" stroke-width="3"/>
+</g>
+</svg>
