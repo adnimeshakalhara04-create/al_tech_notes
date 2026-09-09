@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Battery</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="220" y="210" width="760" height="400" rx="35" fill="#E5E7EB" stroke="#0B1F3A"/><rect x="300" y="145" width="150" height="65" rx="16" fill="#F97316" stroke="#0B1F3A"/><rect x="750" y="145" width="150" height="65" rx="16" fill="#F97316" stroke="#0B1F3A"/><line x1="350" y1="260" x2="350" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="450" y1="260" x2="450" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="550" y1="260" x2="550" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="650" y1="260" x2="650" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="750" y1="260" x2="750" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="850" y1="260" x2="850" y2="560" stroke="#0B1F3A" stroke-width="6"/><line x1="320" y1="355" x2="420" y2="355" stroke="#F97316" stroke-width="8"/><line x1="370" y1="305" x2="370" y2="405" stroke="#F97316" stroke-width="8"/><line x1="780" y1="355" x2="880" y2="355" stroke="#F97316" stroke-width="8"/>
+</g>
+</svg>

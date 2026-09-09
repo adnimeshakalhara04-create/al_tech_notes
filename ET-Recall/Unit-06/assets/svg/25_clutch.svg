@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Clutch</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<circle cx="420" cy="400" r="210" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="420" cy="400" r="130" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="780" cy="400" r="210" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="780" cy="400" r="115" fill="#F97316" stroke="#0B1F3A"/><line x1="420" y1="400" x2="780" y2="400" stroke="#0B1F3A" stroke-width="22"/><line x1="660" y1="280" x2="700" y2="300" stroke="#0B1F3A" stroke-width="5"/><line x1="660" y1="320" x2="700" y2="335" stroke="#0B1F3A" stroke-width="5"/><line x1="660" y1="360" x2="700" y2="370" stroke="#0B1F3A" stroke-width="5"/><line x1="660" y1="400" x2="700" y2="405" stroke="#0B1F3A" stroke-width="5"/><line x1="660" y1="440" x2="700" y2="440" stroke="#0B1F3A" stroke-width="5"/><line x1="660" y1="480" x2="700" y2="475" stroke="#0B1F3A" stroke-width="5"/>
+</g>
+</svg>
