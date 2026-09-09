@@ -1,8 +1,9 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const vm = require('node:vm');
 
 const SOURCE = process.env.UNIT06_SOURCE_ORIGIN || 'https://et-recall-unit-06.vercel.app';
-const OVERLAY_COMMIT = process.env.UNIT06_OVERLAY_COMMIT || 'eef4a9151bd53fd343098b4569f259d6d14d24d3';
+const OVERLAY_COMMIT = process.env.UNIT06_OVERLAY_COMMIT || 'f4a3a2ec919ab68f7bd1661159f3c5d9af92704f';
 const RAW = process.env.UNIT06_RAW_GITHUB || `https://raw.githubusercontent.com/adnimeshakalhara04-create/al_tech_notes/${OVERLAY_COMMIT}/ET-Recall/Unit-06`;
 const OUT = path.join(process.cwd(), '.vercel', 'output');
 const STATIC = path.join(OUT, 'static');
@@ -46,7 +47,7 @@ function discover(text) {
   return [...found];
 }
 async function fetchBytes(url, required = false) {
-  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-CompleteLesson/4.0' } });
+  const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ET-Unit06-SemanticAudit/4.1' } });
   if (!res.ok) { if (required) throw new Error(`Required fetch failed ${res.status}: ${url}`); console.warn(`skip ${res.status} ${url}`); return null; }
   return Buffer.from(await res.arrayBuffer());
 }
@@ -95,6 +96,67 @@ async function installOverlays() {
     await put(`/assets/svg/${file}`, bytes);
   }
 }
+function semanticAudit(questionJs, resolverJs) {
+  const sandbox = { window: {}, console: { log(){}, warn(){}, error(){} } };
+  vm.runInNewContext(questionJs, sandbox, { timeout: 4000, filename: 'questions.js' });
+  const cards = sandbox.window.ET_U6_QUESTIONS;
+  if (!Array.isArray(cards) || cards.length !== 473) throw new Error(`Runtime dataset mismatch: ${Array.isArray(cards) ? cards.length : 'missing'}`);
+
+  const beforeReal = new Set(cards.map(c => c?.image).filter(Boolean));
+  vm.runInNewContext(resolverJs, sandbox, { timeout: 4000, filename: 'unit06-svg.js' });
+
+  const approved = cards.filter(c => String(c?.source || '').trim() === 'Approved Note');
+  if (!approved.length) throw new Error('No Approved Note cards found for Complete Lesson');
+  const fallbacks = approved.filter(c => c.svgFallback === true);
+  const illegalFallbacks = cards.filter(c => c.svgFallback === true && String(c?.source || '').trim() !== 'Approved Note');
+  if (illegalFallbacks.length) throw new Error(`SVG fallback leaked into non-approved cards: ${illegalFallbacks.length}`);
+
+  const imageCards = approved.filter(c => c.image);
+  const uniqueApprovedImages = [...new Set(imageCards.map(c => c.image))];
+  const sectionImagePairs = new Set(imageCards.map(c => `${c.section}::${c.image}`));
+  const sourceCounts = {};
+  for (const c of cards) sourceCounts[String(c?.source || 'Unknown')] = (sourceCounts[String(c?.source || 'Unknown')] || 0) + 1;
+
+  const representativeMappings = uniqueApprovedImages.map(image => {
+    const same = imageCards.filter(c => c.image === image);
+    const first = same[0] || {};
+    return {
+      image,
+      cards: same.length,
+      firstId: first.id || null,
+      section: first.section || null,
+      topic: first.topic || null,
+      question: String(first.question || first.q || '').slice(0, 160),
+      fallback: same.some(c => c.svgFallback === true)
+    };
+  });
+
+  const fallbackAssignments = fallbacks.map(c => ({
+    id: c.id || null,
+    section: c.section || null,
+    topic: c.topic || null,
+    question: String(c.question || c.q || '').slice(0, 160),
+    image: c.image
+  }));
+
+  const audit = {
+    questionCount: cards.length,
+    approvedLessonPoints: approved.length,
+    sourceCounts,
+    realImagePathsBeforeResolver: beforeReal.size,
+    semanticSvgFallbackCards: fallbacks.length,
+    uniqueApprovedImagePaths: uniqueApprovedImages.length,
+    displayedSectionImageSlots: sectionImagePairs.size,
+    illegalFallbacks: illegalFallbacks.length,
+    representativeMappings,
+    fallbackAssignments
+  };
+
+  console.log(`SEMANTIC AUDIT: approved=${approved.length} realPaths=${beforeReal.size} svgFallbackCards=${fallbacks.length} uniqueApprovedImages=${uniqueApprovedImages.length} displayedSectionSlots=${sectionImagePairs.size}`);
+  for (const m of representativeMappings) console.log(`AUDIT_IMAGE ${m.image} <= ${m.firstId || '?'} | ${m.section || '?'} | ${(m.topic || m.question || '').replace(/\s+/g,' ').slice(0,90)}`);
+  for (const f of fallbackAssignments) console.log(`AUDIT_SVG ${f.image} <= ${f.id || '?'} | ${f.section || '?'} | ${(f.topic || f.question || '').replace(/\s+/g,' ').slice(0,90)}`);
+  return audit;
+}
 async function verifyOutput() {
   const index = await fs.readFile(path.join(STATIC, 'index.html'), 'utf8');
   const order = ['/data/questions.js','/assets/unit06-svg.js','/assets/complete-lesson.js','/assets/unit06-admin.js','/app.js'];
@@ -111,21 +173,29 @@ async function verifyOutput() {
   const lesson = await fs.readFile(path.join(STATIC, 'assets', 'complete-lesson.js'), 'utf8');
   const admin = await fs.readFile(path.join(STATIC, 'assets', 'unit06-admin.js'), 'utf8');
   if (!resolver.includes('ET_UNIT06_SVG') || !resolver.includes('ET_U6_QUESTIONS')) throw new Error('SVG resolver integrity check failed');
-  if (!lesson.includes('සම්පූර්ණ පාඩම') || !lesson.includes('u6:lesson-ready') || !lesson.includes('ET_U6_QUESTIONS')) throw new Error('Complete Lesson integrity check failed');
+  if (resolver.includes('card.answer') || resolver.includes('card.memory')) throw new Error('Unsafe SVG matching scans answer/memory text');
+  if (!resolver.includes('Approved Note') || !resolver.includes('strictKey')) throw new Error('Strict Approved Note SVG matching missing');
+  if (!lesson.includes('සම්පූර්ණ පාඩම') || !lesson.includes('const C=ALL.filter') || !lesson.includes("==='Approved Note'") || !lesson.includes('const shown=new Set')) throw new Error('Complete Lesson semantic placement rules missing');
   if (!admin.includes('sessionStorage') || !admin.includes('live-images.json') || !admin.includes('u6:lesson-ready')) throw new Error('Admin integrity check failed');
   for (const file of SVG_FILES) { const s = await fs.readFile(path.join(STATIC,'assets','svg',file),'utf8'); if (!s.includes('<svg')) throw new Error(`Invalid SVG: ${file}`); }
+
+  const audit = semanticAudit(q, resolver);
+  await fs.writeFile(path.join(STATIC, 'semantic-image-audit.json'), JSON.stringify(audit, null, 2));
+  return audit;
 }
 async function main() {
   await fs.rm(OUT,{recursive:true,force:true});
   await fs.mkdir(STATIC,{recursive:true});
   await mirrorProduction();
   await installOverlays();
-  await verifyOutput();
+  const audit = await verifyOutput();
   await fs.writeFile(path.join(OUT,'config.json'),JSON.stringify({version:3},null,2));
   await fs.writeFile(path.join(STATIC,'build-marker.json'),JSON.stringify({
-    unit:'06',mode:'complete-lesson-v4',sourceOrigin:SOURCE,questionCount:473,svgAssets:SVG_FILES.length,
-    completeLesson:true,globalAdmin:true,overlayCommit:OVERLAY_COMMIT,generatedAt:new Date().toISOString()
+    unit:'06',mode:'complete-lesson-v4-semantic-audit',sourceOrigin:SOURCE,questionCount:473,svgAssets:SVG_FILES.length,
+    completeLesson:true,globalAdmin:true,semanticAudit:true,approvedLessonPoints:audit.approvedLessonPoints,
+    semanticSvgFallbackCards:audit.semanticSvgFallbackCards,uniqueApprovedImagePaths:audit.uniqueApprovedImagePaths,
+    overlayCommit:OVERLAY_COMMIT,generatedAt:new Date().toISOString()
   },null,2));
-  console.log(`Unit 06 Complete Lesson v4 READY: ${seen.size} mirrored paths + 473 questions + ${SVG_FILES.length} SVGs + global admin`);
+  console.log(`Unit 06 semantic-audited Complete Lesson READY: ${seen.size} mirrored paths + ${audit.approvedLessonPoints} approved points + ${audit.uniqueApprovedImagePaths} unique images + ${SVG_FILES.length} SVG assets`);
 }
 main().catch(err=>{console.error(err.stack||err);process.exit(1)});
