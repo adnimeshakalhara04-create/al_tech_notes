@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Carburetor</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M260 200 H940 L820 600 H380 Z" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M360 340 H840 Q760 410 840 480 H360 Q440 410 360 340 Z" fill="#FFFFFF" stroke="#0B1F3A"/><circle cx="600" cy="410" r="38" fill="#F97316" stroke="#0B1F3A"/><line x1="600" y1="180" x2="600" y2="640" stroke="#0B1F3A" stroke-width="6"/><rect x="300" y="520" width="180" height="90" rx="20" fill="#F97316" stroke="#0B1F3A"/><line x1="170" y1="410" x2="340" y2="410" stroke="#F97316" stroke-width="8"/><polygon points="320.94744111674237,421.0 340,410 320.94744111674237,399.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="860" y1="410" x2="1030" y2="410" stroke="#F97316" stroke-width="8"/><polygon points="1010.9474411167423,421.0 1030,410 1010.9474411167423,399.0" fill="#F97316" stroke="#F97316" stroke-width="3"/>
+</g>
+</svg>

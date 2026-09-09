@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Ignition coil</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="300" y="160" width="600" height="480" rx="30" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M390 250 C470 210 470 330 550 290 C630 250 630 370 710 330 C790 290 790 410 850 370" fill="none" stroke="#F97316" stroke-width="10"/><path d="M390 430 C450 400 450 500 510 470 C570 440 570 540 630 510 C690 480 690 580 750 550" fill="none" stroke="#0B1F3A" stroke-width="8"/><line x1="600" y1="160" x2="600" y2="100" stroke="#0B1F3A" stroke-width="12"/><line x1="600" y1="640" x2="600" y2="705" stroke="#0B1F3A" stroke-width="12"/>
+</g>
+</svg>

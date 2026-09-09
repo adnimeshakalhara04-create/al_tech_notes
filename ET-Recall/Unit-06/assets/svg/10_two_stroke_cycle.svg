@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Two-stroke cycle</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="240" y="140" width="720" height="500" rx="30" fill="none" stroke="#0B1F3A"/><circle cx="600" cy="500" r="72" fill="#E5E7EB" stroke="#0B1F3A"/><line x1="600" y1="300" x2="600" y2="450" stroke="#0B1F3A" stroke-width="14"/><rect x="240" y="300" width="120" height="120" rx="20" fill="#F97316" stroke="#0B1F3A"/><rect x="840" y="260" width="120" height="120" rx="20" fill="#F97316" stroke="#0B1F3A"/><line x1="130" y1="360" x2="240" y2="360" stroke="#F97316" stroke-width="8"/><polygon points="220.94744111674234,371.0 240,360 220.94744111674234,349.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="960" y1="320" x2="1080" y2="320" stroke="#F97316" stroke-width="8"/><polygon points="1060.9474411167423,331.0 1080,320 1060.9474411167423,309.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><path d="M360 570 Q600 690 840 570" fill="none" stroke="#F97316" stroke-width="8"/>
+</g>
+</svg>

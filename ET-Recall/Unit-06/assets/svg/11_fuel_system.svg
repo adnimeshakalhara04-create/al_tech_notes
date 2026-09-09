@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title">
+<title id="title">Fuel system</title>
+<rect width="1200" height="800" fill="#FFFFFF"/>
+<g stroke="#0B1F3A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+<rect x="120" y="420" width="240" height="150" rx="25" fill="#E5E7EB" stroke="#0B1F3A"/><circle cx="300" cy="495" r="28" fill="#F97316" stroke="#0B1F3A"/><rect x="470" y="380" width="190" height="220" rx="25" fill="#FFFFFF" stroke="#0B1F3A"/><rect x="820" y="300" width="220" height="300" rx="30" fill="#E5E7EB" stroke="#0B1F3A"/><path d="M360 495 H470 M660 490 H820" fill="none" stroke="#0B1F3A" stroke-width="14"/><line x1="385" y1="495" x2="450" y2="495" stroke="#F97316" stroke-width="8"/><polygon points="430.94744111674237,506.0 450,495 430.94744111674237,484.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><line x1="690" y1="490" x2="790" y2="490" stroke="#F97316" stroke-width="8"/><polygon points="770.9474411167423,501.0 790,490 770.9474411167423,479.0" fill="#F97316" stroke="#F97316" stroke-width="3"/><circle cx="565" cy="490" r="35" fill="#F97316" stroke="#0B1F3A"/><line x1="930" y1="300" x2="930" y2="220" stroke="#0B1F3A" stroke-width="12"/>
+</g>
+</svg>
